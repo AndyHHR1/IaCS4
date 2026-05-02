@@ -45,12 +45,12 @@ resource "aws_iam_policy" "crop_policy" {
       {
         Effect   = "Allow"
         Action   = ["s3:GetObject"]
-        Resource = ["${aws_s3_bucket.images.arn}/uploads/*"]
+        Resource = ["${aws_s3_bucket.images.arn}/*"]
       },
       {
         Effect   = "Allow"
         Action   = ["s3:PutObject"]
-        Resource = ["${aws_s3_bucket.images.arn}/processed/*"]
+        Resource = ["${aws_s3_bucket.images.arn}/*"]
       },
       {
         Effect = "Allow"

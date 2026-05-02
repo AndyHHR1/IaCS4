@@ -5,9 +5,10 @@ const s3 = new S3Client({});
 
 export const handler = async (event) => {
     for (const record of event.Records) {
-        const s3Event = JSON.parse(record.body).Records[0].s3;
-        const bucket = s3Event.bucket.name;
-        const key = decodeURIComponent(s3Event.object.key.replace(/\+/g, ' '));
+        const s3Event = JSON.parse(record.body);
+        const s3Record = s3Event.Records[0].s3;
+        const bucket = s3Record.bucket.name;
+        const key = decodeURIComponent(s3Record.object.key.replace(/\+/g, ' '));
 
         try {
             const response = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: key }));

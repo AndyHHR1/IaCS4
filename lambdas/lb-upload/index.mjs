@@ -7,33 +7,38 @@ const s3 = new S3Client({});
 export const handler = async (event) => {
     const bucket = process.env.S3_BUCKET;
     const prefix = process.env.UPLOAD_PREFIX;
+    const contentType = event.headers?.['content-type'] || event.headers?.['Content-Type'];
 
     return new Promise((resolve, reject) => {
-        const busboy = Busboy({ headers: { 'content-type': event.headers['content-type'] || event.headers['Content-Type'] } });
-        let fileData, contentType, fileName;
+        const busboy = Busboy({ headers: { 'content-type': contentType } });
+        let fileData, fileContentType, fileName;
+        let fileRejected = false;
 
         busboy.on('file', (name, file, info) => {
             const { filename, mimeType } = info;
             const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
             
             if (!allowed.includes(mimeType)) {
+                fileRejected = true;
+                file.resume();
                 return resolve({ statusCode: 400, body: JSON.stringify({ error: "Tipo de archivo no soportado" }) });
             }
 
             fileName = `${uuidv4()}-${filename}`;
-            contentType = mimeType;
+            fileContentType = mimeType;
             const chunks = [];
             file.on('data', (data) => chunks.push(data));
             file.on('end', () => { fileData = Buffer.concat(chunks); });
         });
 
         busboy.on('finish', async () => {
+            if (fileRejected) return;
             try {
                 await s3.send(new PutObjectCommand({
                     Bucket: bucket,
                     Key: `${prefix}${fileName}`,
                     Body: fileData,
-                    ContentType: contentType
+                    ContentType: fileContentType
                 }));
                 resolve({ 
                     statusCode: 201, 
