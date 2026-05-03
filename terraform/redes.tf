@@ -56,7 +56,7 @@ resource "aws_vpc_endpoint" "sqs" {
 }
 
 resource "aws_security_group" "vpce_sqs_sg" {
-  name        = "sg-vpce-sqs-${var.environment}"
+  name        = "vpce-sqs-${var.environment}"
   description = "Acceso HTTPS interno para SQS"
   vpc_id      = aws_vpc.main.id
 
@@ -75,7 +75,7 @@ resource "aws_security_group" "vpce_sqs_sg" {
   }
 
   tags = { 
-    Name  = "sg-sqs-endpoint-${var.environment}"
+    Name  = "vpce-sqs-sg-${var.environment}"
     Owner = "AndyHHR"
   }
 }

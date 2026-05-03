@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "images" {
-  bucket = "${var.project_name}-${var.environment}-images-upao-AndyHHR"
+  bucket = "${var.project_name}-${var.environment}-images-upao-andyhhr"
   tags   = { Owner = "AndyHHR" }
 }
 
