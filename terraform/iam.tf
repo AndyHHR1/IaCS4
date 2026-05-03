@@ -9,6 +9,7 @@ resource "aws_iam_role" "lambda_common_role" {
       Principal = { Service = "lambda.amazonaws.com" }
     }]
   })
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_vpc_execution" {
@@ -19,6 +20,7 @@ resource "aws_iam_role_policy_attachment" "lambda_vpc_execution" {
 resource "aws_iam_policy" "upload_policy" {
   name        = "upload-lambda-policy-${var.environment}"
   description = "Habilita la subida de archivos al directorio de carga."
+  tags        = { Owner = "AndyHHR" }
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -38,6 +40,7 @@ resource "aws_iam_role_policy_attachment" "upload_attach" {
 resource "aws_iam_policy" "crop_policy" {
   name        = "crop-lambda-policy-${var.environment}"
   description = "Permisos para procesar imágenes desde S3 y gestionar colas SQS."
+  tags        = { Owner = "AndyHHR" }
 
   policy = jsonencode({
     Version = "2012-10-17"

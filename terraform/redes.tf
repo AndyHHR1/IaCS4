@@ -3,21 +3,30 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags = { Name = "${var.project_name}-vpc-${var.environment}" }
+  tags = { 
+    Name   = "${var.project_name}-vpc-${var.environment}" 
+    Owner  = "AndyHHR"
+  }
 }
 
 resource "aws_subnet" "private_a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.11.0/24"
   availability_zone = "${var.aws_region}a"
-  tags              = { Name = "subnet-priv-a-${var.environment}" }
+  tags = { 
+    Name  = "subnet-priv-a-${var.environment}"
+    Owner = "AndyHHR"
+  }
 }
 
 resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.12.0/24"
   availability_zone = "${var.aws_region}b"
-  tags              = { Name = "subnet-priv-b-${var.environment}" }
+  tags = { 
+    Name  = "subnet-priv-b-${var.environment}"
+    Owner = "AndyHHR"
+  }
 }
 
 resource "aws_vpc_endpoint" "s3" {
@@ -26,7 +35,10 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_endpoint_type = "Gateway"
   route_table_ids   = [aws_vpc.main.default_route_table_id]
 
-  tags = { Name = "vpce-s3-${var.environment}" }
+  tags = { 
+    Name  = "vpce-s3-${var.environment}"
+    Owner = "AndyHHR"
+  }
 }
 
 resource "aws_vpc_endpoint" "sqs" {
@@ -37,7 +49,10 @@ resource "aws_vpc_endpoint" "sqs" {
   private_dns_enabled = true
   security_group_ids  = [aws_security_group.vpce_sqs_sg.id]
 
-  tags = { Name = "vpce-sqs-${var.environment}" }
+  tags = { 
+    Name  = "vpce-sqs-${var.environment}"
+    Owner = "AndyHHR"
+  }
 }
 
 resource "aws_security_group" "vpce_sqs_sg" {
@@ -59,5 +74,8 @@ resource "aws_security_group" "vpce_sqs_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = { Name = "sg-sqs-endpoint-${var.environment}" }
+  tags = { 
+    Name  = "sg-sqs-endpoint-${var.environment}"
+    Owner = "AndyHHR"
+  }
 }

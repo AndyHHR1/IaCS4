@@ -25,6 +25,8 @@ resource "aws_lambda_function" "crop" {
       PROCESSED_PREFIX = "processed/"
     }
   }
+
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_lambda_event_source_mapping" "sqs_trigger" {

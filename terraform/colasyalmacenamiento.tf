@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "images" {
   bucket = "${var.project_name}-${var.environment}-images-upao-AndyHHR"
+  tags   = { Owner = "AndyHHR" }
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "images_lifecycle" {
@@ -23,6 +24,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "images_lifecycle" {
 resource "aws_sqs_queue" "image_dlq" {
   name                      = "${var.project_name}-${var.environment}-image-dlq"
   message_retention_seconds = 1209600 
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_sqs_queue" "image_queue" {
@@ -35,6 +37,7 @@ resource "aws_sqs_queue" "image_queue" {
     deadLetterTargetArn = aws_sqs_queue.image_dlq.arn
     maxReceiveCount     = 3 
   })
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_sqs_queue_policy" "allow_s3_events" {

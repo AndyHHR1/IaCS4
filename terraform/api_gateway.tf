@@ -8,6 +8,7 @@ resource "aws_apigatewayv2_api" "http_api" {
     allow_headers = ["content-type"]
     max_age       = 300
   }
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_apigatewayv2_stage" "default" {
@@ -24,11 +25,13 @@ resource "aws_apigatewayv2_stage" "default" {
       status    = "$context.status"
     })
   }
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_cloudwatch_log_group" "api_logs" {
   name              = "/aws/apigateway/${var.project_name}-${var.environment}"
   retention_in_days = 14
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_apigatewayv2_integration" "upload_integration" {

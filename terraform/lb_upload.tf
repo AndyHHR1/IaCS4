@@ -25,6 +25,8 @@ resource "aws_lambda_function" "upload" {
       UPLOAD_PREFIX = "uploads/"
     }
   }
+
+  tags = { Owner = "AndyHHR" }
 }
 
 resource "aws_lambda_permission" "apigw_upload" {
