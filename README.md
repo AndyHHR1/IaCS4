@@ -44,9 +44,9 @@ terraform apply -var-file="prod.tfvars" -auto-approve
 Obtén la URL de la API desde la salida de Terraform:
 
 ```bash
-curl -X POST <TU_API_URL_AQUI> \
-  -H "Content-Type: image/jpeg" \
-  --data-binary "@/ruta/a/tu/foto.jpg"
+curl -X POST https://b87iqucmy1.execute-api.us-east-1.amazonaws.com/upload \
+  -H "Content-Type: image/png" \
+  --data-binary "@../foto.png"
 ```
 
 ## Limpieza
